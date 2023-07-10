@@ -4,8 +4,12 @@ const moduleAlias = require('module-alias')
 const { join } = require('path')
 moduleAlias.addAlias('@', __dirname)
 const { router } = require('./router/index')
+const authMiddleware = require('./middlewares/auth')
+const errorHandleMiddleware = require('./middlewares/errorHandle')
 require('./db')
 app.use(router.routes())
+app.use(authMiddleware)
+app.use(errorHandleMiddleware)
 
 app.listen(6060, () => {
   console.log('6060start')

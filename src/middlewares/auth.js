@@ -1,9 +1,9 @@
 // auth.js
 
 // 导入需要的依赖和工具类
-const jwt = require('jsonwebtoken')
-const config = require('../config/config')
-const User = require('../models/user')
+// const jwt = require('jsonwebtoken')
+// const config = require('../config/config')
+// const User = require('../models/user')
 
 // 身份验证中间件
 const authMiddleware = async (ctx, next) => {

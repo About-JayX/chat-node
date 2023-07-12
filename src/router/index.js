@@ -11,10 +11,15 @@ glob
   .filter(fileName => !fileName.includes('index.js'))
   .map(item => require(item))
   .map(item => {
+    let name = ''
+    if (item.name) {
+      name = `/${item.name}`
+      delete item.name
+    }
     Object.keys(item).map(api => {
       if (!item.hasOwnProperty(api)) return
       const route = item[api]
-      router[route.methods](route.url, route.actions)
+      router[route.methods](`${name}${route.url}`, route.actions)
     })
   })
 

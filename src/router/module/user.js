@@ -1,18 +1,8 @@
-const { selectUserService } = require('@/service/userService')
-console.log(selectUserService, 'user')
-const selectUser = {
-  url: '/selectUser',
-  methods: 'get',
-  actions: selectUserService,
-}
-const addUser = {
-  url: '/addUser',
-  methods: 'get',
-  actions: (ctx, body) => {
-    ctx.body = 'addUser'
-  },
-}
+const { addUserService } = require('@/service/userService')
+const { routerModule } = require('@/utils/index.js')
+
+const addUser = routerModule('/addUser', 'post', addUserService)
 module.exports = {
-  selectUser,
   addUser,
+  name: 'user',
 }

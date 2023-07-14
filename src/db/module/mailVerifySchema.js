@@ -6,7 +6,7 @@ const mailVerifySchema = new mongoose.Schema({
     required: true,
   },
   code: {
-    type: String,
+    type: Number,
     required: true,
   },
   dateCreated: {

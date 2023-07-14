@@ -14,12 +14,10 @@ const userSchema = new mongoose.Schema({
   userInfo: {
     nickName: {
       type: String,
-      required: true,
     },
     status: Boolean,
     sex: {
       type: Number,
-      required: true,
     },
     email: {
       type: String,

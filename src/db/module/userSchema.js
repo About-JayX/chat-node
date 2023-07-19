@@ -15,7 +15,6 @@ const userSchema = new mongoose.Schema({
     nickName: {
       type: String,
     },
-    status: Boolean,
     sex: {
       type: Number,
     },
@@ -24,12 +23,16 @@ const userSchema = new mongoose.Schema({
     },
     phone: {
       type: String,
-      required: () => {
-        console.log(this, '__this')
-      },
     },
     avatar: {
       type: String,
+    },
+    //  -1 未填写用户信息 0 禁用 1 正常
+    status: {
+      type: Number,
+      default: () => {
+        return -1
+      },
     },
   },
   createDate: {

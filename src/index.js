@@ -2,16 +2,14 @@ const Koa = require('koa')
 const app = new Koa()
 const moduleAlias = require('module-alias')
 const bodyParser = require('koa-bodyparser')
-const authMiddleware = require('./middlewares/auth')
-const errorHandleMiddleware = require('./middlewares/errorHandle')
+
 moduleAlias.addAlias('@', __dirname)
 const { router } = require('./router/index')
 require('./db')
 
 app.use(bodyParser())
 app.use(router.routes())
-app.use(authMiddleware)
-app.use(errorHandleMiddleware)
+
 app.listen(6060, () => {
   console.log('6060start')
 })

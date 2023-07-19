@@ -16,14 +16,23 @@ const verCodeGenerate = async () => {
 }
 
 const sendCtxResponse = (ctx, data) => {
-  if (ctx && ctx.response) {
-    ctx.response.body = data
-  } else {
-    throw new Error('ctx error')
-  }
+  if (!(ctx && ctx.response)) throw new Error('ctx error')
+  ctx.response.body = data
+}
+
+const getCtxRequest = ctx => {
+  if (!(ctx && ctx.request)) throw new Error('ctx error')
+
+  return ctx.request.body
+}
+
+const jsonClone = data => {
+  return JSON.parse(JSON.stringify(data))
 }
 module.exports = {
   routerModule,
   verCodeGenerate,
   sendCtxResponse,
+  getCtxRequest,
+  jsonClone,
 }

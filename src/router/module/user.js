@@ -1,8 +1,18 @@
-const { register } = require('@/service/userService')
+const {
+  registerService,
+  loginService,
+  getTokenService,
+} = require('@/service/userService')
 const { routerModule } = require('@/utils/index.js')
 
-const addUser = routerModule('/register', 'post', register)
+const register = routerModule('/register', 'post', registerService)
+
+const login = routerModule('/login', 'post', loginService)
+
+const getToken = routerModule('/getToken', 'post', getTokenService)
 module.exports = {
-  addUser,
+  register,
+  login,
+  getToken,
   name: 'user',
 }

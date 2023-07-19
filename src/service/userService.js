@@ -1,10 +1,9 @@
 const { mailVerify } = require('@/db/module/mailVerifySchema')
 const { User } = require('@/db/module/userSchema')
-const { sendCtxResponse } = require('@/utils')
+const { sendCtxResponse, getCtxRequest, jsonClone } = require('@/utils')
 const { error, success } = require('@/utils/resData')
 
-console.log(User, 'User__')
-const register = async (ctx, next) => {
+const registerService = async (ctx, next) => {
   let data = ctx.request.body
   if (!(data.email && data.userName && data.passWord && data.code)) {
     sendCtxResponse(ctx, error(500, null, '必要数据丢失！'))
@@ -46,6 +45,39 @@ const register = async (ctx, next) => {
   }
 }
 
+const loginService = async (ctx, next) => {
+  let data = getCtxRequest(ctx)
+
+  if (!(data.userName && data.passWord)) {
+    sendCtxResponse(ctx, error(500, null, '用户名或密码不能为空！'))
+    return false
+  }
+
+  const queryRes = await User.find({ userName: data.userName }).exec()
+  if (!queryRes.length) {
+    sendCtxResponse(ctx, error(500, null, '该用户不存在'))
+    return false
+  }
+  
+  const userData = jsonClone(queryRes[0])
+  if (!(userData.passWord && userData.passWord == data.passWord)) {
+    console.log(userData.passWord, 'password')
+    console.log(data.passWord, 'data_password')
+    sendCtxResponse(ctx, error(500, null, '用户名或密码输入错误'))
+    return false
+  }
+
+  userData && userData.passWord && delete userData.passWord
+
+  sendCtxResponse(ctx, success(userData))
+}
+
+const getTokenService = async (ctx, next) => {
+  const userData = User.find({ userName: '1461471381@qq.com' })
+  console.log(userData, 'data')
+}
 module.exports = {
-  register,
+  registerService,
+  loginService,
+  getTokenService,
 }

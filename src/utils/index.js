@@ -1,8 +1,9 @@
-const routerModule = (url, methods, actions) => {
+const routerModule = (url, methods, actions, verify) => {
   return {
     url,
     methods,
     actions,
+    verify,
   }
 }
 

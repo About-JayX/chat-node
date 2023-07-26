@@ -2,12 +2,10 @@ const { success, error } = require('@/utils/resData.js')
 const { mailVerify } = require('@/db/module/mailVerifySchema')
 const { verifyCode } = require('@/utils/emailVerify.js')
 const { verCodeGenerate, sendCtxResponse } = require('@/utils/index.js')
-console.log(verifyCode, 'mailVerify')
 const getVerifyCodeService = async (ctx, next) => {
   let data = ctx.request.body
   if (!(data && data.email)) {
     ctx.response.body = error(500, null, '请检查邮箱后重试')
-    console.log(ctx.response, 'ctx.response.body')
     return false
   }
   let { email } = data

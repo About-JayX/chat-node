@@ -1,5 +1,6 @@
 const { mailVerify } = require('@/db/module/mailVerifySchema')
 const { User } = require('@/db/module/userSchema')
+const { getToken } = require('@/middlewares/auth')
 const { sendCtxResponse, getCtxRequest, jsonClone } = require('@/utils')
 const { error, success } = require('@/utils/resData')
 
@@ -58,11 +59,9 @@ const loginService = async (ctx, next) => {
     sendCtxResponse(ctx, error(500, null, '该用户不存在'))
     return false
   }
-  
+
   const userData = jsonClone(queryRes[0])
   if (!(userData.passWord && userData.passWord == data.passWord)) {
-    console.log(userData.passWord, 'password')
-    console.log(data.passWord, 'data_password')
     sendCtxResponse(ctx, error(500, null, '用户名或密码输入错误'))
     return false
   }
@@ -73,8 +72,11 @@ const loginService = async (ctx, next) => {
 }
 
 const getTokenService = async (ctx, next) => {
-  const userData = User.find({ userName: '1461471381@qq.com' })
-  console.log(userData, 'data')
+  const data = getCtxRequest(ctx)
+  const token = getToken(data, {
+    expiresIn: 60 * 60 * 24 * 7,
+  })
+  sendCtxResponse(ctx, success({ token }))
 }
 module.exports = {
   registerService,

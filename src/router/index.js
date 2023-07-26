@@ -19,6 +19,11 @@ glob
     Object.keys(item).map(api => {
       if (!item.hasOwnProperty(api)) return
       const route = item[api]
+      const verify = route.verify
+      if (verify) {
+        router[route.methods](`${name}${route.url}`, verify, route.actions)
+        return
+      }
       router[route.methods](`${name}${route.url}`, route.actions)
     })
   })

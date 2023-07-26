@@ -1,15 +1,15 @@
+const moduleAlias = require('module-alias')
+moduleAlias.addAlias('@', __dirname)
 const Koa = require('koa')
 const app = new Koa()
-const moduleAlias = require('module-alias')
 const bodyParser = require('koa-bodyparser')
-
-moduleAlias.addAlias('@', __dirname)
+const { createSocket } = require('@/utils/socket')
 const { router } = require('./router/index')
 require('./db')
 
 app.use(bodyParser())
 app.use(router.routes())
-
+createSocket({ port: 6061 })
 app.listen(6060, () => {
   console.log('6060start')
 })
